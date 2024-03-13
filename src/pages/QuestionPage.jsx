@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import './QuestionPage.css';
+import { useEffect } from "react";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import "./QuestionPage.css";
 
 const fetchQuestion = async (id) => {
   const res = await fetch(`/api/question/${id}`);
@@ -19,12 +19,13 @@ const fetchUser = async (id) => {
 };
 
 export default function QuestionPage() {
-  const [question, setQuestion] = useState('');
-  const [message, setMessage] = useState('');
+  const [question, setQuestion] = useState("");
+  const [message, setMessage] = useState("");
   const [answers, setAnswers] = useState([]);
+  const [answerPosters, setAnswerPosters] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [user_id, setUserId] = useState(-1);
-  const [questionPoster, setQuestionPoster] = useState('');
+  const [questionPoster, setQuestionPoster] = useState("");
 
   const { id } = useParams();
 
@@ -35,13 +36,18 @@ export default function QuestionPage() {
         setQuestionPoster(user);
       });
     });
-    fetchAnswers(id).then((answer) => {
-      setAnswers(answer);
+    fetchAnswers(id).then((answers) => {
+      setAnswers(answers);
+      answers.forEach((answer) => {
+        fetchUser(answer.user_id).then((user) => {
+          setAnswerPosters((prev) => [...prev, user.userName]);
+        });
+      });
     });
   }, [id]);
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem('userId'));
+    const id = JSON.parse(localStorage.getItem("userId"));
     if (id && id > 0) {
       setUserId(id);
     }
@@ -50,7 +56,7 @@ export default function QuestionPage() {
   const handleDelete = async (e, id) => {
     try {
       const response = await fetch(`/api/question/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       if (response.ok) {
         const deletedQuestion = await response.json();
@@ -59,12 +65,13 @@ export default function QuestionPage() {
         });
         console.log(deletedQuestion);
       } else {
-        console.error('Failed to delete the book');
+        console.error("Failed to delete the book");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
 
   const deleteAnswer = async (e, id) => {
     try {
@@ -87,8 +94,10 @@ export default function QuestionPage() {
       console.log(error);
     }
   };
-
-  const handleAddAnswer = async (e, question_id) => {
+  
+  
+  async function handleAddAnswer(e, question_id) {
+    console.log("from edit page, handleSubmit");
     const answerPost = {
       message,
       user_id,
@@ -97,23 +106,23 @@ export default function QuestionPage() {
 
     try {
       const response = await fetch(`/api/answer/${question_id}`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(answerPost),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (response.ok) {
         const addedAnswer = await response.json();
-        console.log('New answer added', addedAnswer);
+        console.log("New answer added", addedAnswer);
       } else {
-        console.error('Failed to add the answer');
+        console.error("Failed to add the answer");
       }
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   
 
@@ -150,7 +159,7 @@ export default function QuestionPage() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
-            />{' '}
+            />{" "}
             <br />
             <button type="submit">Submit Answer</button>
           </form>
@@ -158,8 +167,9 @@ export default function QuestionPage() {
       </div>
       <div id="answers">
         <h2>ANSWERS</h2>
-        {answers.map((answer) => (
-          <div id="answer" key={answer.answer_id}>
+        {answers.map((answer, i) => (
+          <div key={answer.answer_id}>
+            <h2>by: {answerPosters[i]}</h2>
             <h2>{answer.message}</h2>
             {answer.user_id == user_id && (<span
               id="answer-delete"
