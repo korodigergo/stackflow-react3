@@ -169,8 +169,8 @@ export default function QuestionPage() {
         <h2>ANSWERS</h2>
         {answers.map((answer, i) => (
           <div key={answer.answer_id}>
-            <h2>by: {answerPosters[i]}</h2>
             <h2>{answer.message}</h2>
+            <h2>by: {answerPosters[i]}</h2>
             {answer.user_id == user_id && (<span
               id="answer-delete"
               onClick={(e) => deleteAnswer(e, answer.answer_id)}
