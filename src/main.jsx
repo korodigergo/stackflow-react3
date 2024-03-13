@@ -5,6 +5,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import EditQuestions from './pages/EditQuestions.jsx';
 import Questions from './pages/Questions.jsx';
+import Register from './pages/user/Register.jsx';
 
 
 const router = createBrowserRouter([
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App></App>,
     children: [
+      {
+        path: "/register",
+        element: <Register />
+      },
       {
         path: "/addquestion",
         element: <EditQuestions />
