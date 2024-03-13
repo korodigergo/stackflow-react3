@@ -5,6 +5,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import EditQuestions from './pages/EditQuestions.jsx';
 import Questions from './pages/Questions.jsx';
+import QuestionPage from './pages/QuestionPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/questions",
         element: <Questions />
+      },
+      {
+        path: "/question/:id",
+        element: <QuestionPage />
       }
     ]
   },
