@@ -23,6 +23,12 @@ h2{
   left: 20px;
 }
 
+.user-name{
+  position: absolute;
+  top: 25px;
+  left: 20px;
+}
+
 #answers{
   position: absolute;
   left: 20%;
