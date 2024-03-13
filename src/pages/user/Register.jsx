@@ -24,6 +24,7 @@ const Register = () => {
           Username
         </label>
         <input
+        placeholder="Username"
           type="text"
           id="userName"
           name="userName"
@@ -38,6 +39,7 @@ const Register = () => {
           Password
         </label>
         <input
+        placeholder="Password"
           type="password"
           id="password"
           name="password"
