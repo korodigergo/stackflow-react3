@@ -18,6 +18,7 @@ export default function QuestionPage() {
   const [message, setMessage] = useState("");
   const [answers, setAnswers] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [user_id, setUserId] = useState(-1);
 
   const { id } = useParams();
 
@@ -28,8 +29,15 @@ export default function QuestionPage() {
     fetchAnswers(id).then((question) => {
       setAnswers(question);
     });
-
+    
   }, [id]);
+
+  useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("userId"));
+    if(id && id > 0){
+      setUserId(id);
+    }
+  }, [])
 
   const handleDelete = async (e, id) => {
     //  e.preventDefault();
@@ -39,7 +47,7 @@ export default function QuestionPage() {
       });
       if (response.ok) {
         const deletedQuestion = await response.json();
-        setQuestions((questions) => {
+        setQuestion((questions) => {
           return questions.filter((question) => question.question_id !== id);
         });
         console.log(deletedQuestion);
