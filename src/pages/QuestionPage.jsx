@@ -54,7 +54,6 @@ export default function QuestionPage() {
   }, []);
 
   const handleDelete = async (e, id) => {
-    //  e.preventDefault();
     try {
       const response = await fetch(`/api/question/${id}`, {
         method: "DELETE",
@@ -73,6 +72,30 @@ export default function QuestionPage() {
     }
   };
 
+
+  const deleteAnswer = async (e, id) => {
+    try {
+      const response = await fetch(`/api/answer/${user_id}/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        const isAnswerDeleted = await response.json();
+        if(isAnswerDeleted){
+          setAnswers((answers) => {
+            return answers.filter((answer) => answer.answer_id !== id);
+          });
+          console.log("deleted answer ", isAnswerDeleted);
+        }
+        
+      } else {
+        console.error("Failed to delete answer");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  
   async function handleAddAnswer(e, question_id) {
     console.log("from edit page, handleSubmit");
     const answerPost = {
@@ -100,6 +123,8 @@ export default function QuestionPage() {
       console.error(error);
     }
   }
+
+  
 
   return (
     <div className="title-container">
@@ -146,6 +171,12 @@ export default function QuestionPage() {
           <div key={answer.answer_id}>
             <h2>by: {answerPosters[i]}</h2>
             <h2>{answer.message}</h2>
+            {answer.user_id == user_id && (<span
+              id="answer-delete"
+              onClick={(e) => deleteAnswer(e, answer.answer_id)}
+            >
+             &times;
+            </span>)}
           </div>
         ))}
       </div>

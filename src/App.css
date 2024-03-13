@@ -11,7 +11,7 @@ body{
 }
 
 #header{
-
+  z-index: 999;
   width: 250vh;
   background-color: 	#343a40;
   padding: 20px;
