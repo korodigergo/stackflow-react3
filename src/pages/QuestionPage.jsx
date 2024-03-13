@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import "./QuestionPage.css";
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import './QuestionPage.css';
 
 const fetchQuestion = async (id) => {
   const res = await fetch(`/api/question/${id}`);
@@ -13,36 +13,44 @@ const fetchAnswers = async (id) => {
   return await res.json();
 };
 
+const fetchUser = async (id) => {
+  const res = await fetch(`/api/user/${id}`);
+  return await res.json();
+};
+
 export default function QuestionPage() {
-  const [question, setQuestion] = useState("");
-  const [message, setMessage] = useState("");
+  const [question, setQuestion] = useState('');
+  const [message, setMessage] = useState('');
   const [answers, setAnswers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [user_id, setUserId] = useState(-1);
+  const [questionPoster, setQuestionPoster] = useState('');
 
   const { id } = useParams();
 
   useEffect(() => {
     fetchQuestion(id).then((question) => {
       setQuestion(question);
+      fetchUser(question.user_id).then((user) => {
+        setQuestionPoster(user);
+      });
     });
-    fetchAnswers(id).then((question) => {
-      setAnswers(question);
+    fetchAnswers(id).then((answer) => {
+      setAnswers(answer);
     });
-    
   }, [id]);
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem("userId"));
-    if(id && id > 0){
+    const id = JSON.parse(localStorage.getItem('userId'));
+    if (id && id > 0) {
       setUserId(id);
     }
-  }, [])
+  }, []);
 
   const handleDelete = async (e, id) => {
     try {
       const response = await fetch(`/api/question/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       if (response.ok) {
         const deletedQuestion = await response.json();
@@ -51,7 +59,7 @@ export default function QuestionPage() {
         });
         console.log(deletedQuestion);
       } else {
-        console.error("Failed to delete the book");
+        console.error('Failed to delete the book');
       }
     } catch (error) {
       console.log(error);
@@ -81,27 +89,26 @@ export default function QuestionPage() {
   };
 
   const handleAddAnswer = async (e, question_id) => {
-
     const answerPost = {
       message,
       user_id,
-      question_id
+      question_id,
     };
 
     try {
       const response = await fetch(`/api/answer/${question_id}`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(answerPost),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
       if (response.ok) {
         const addedAnswer = await response.json();
-        console.log("New answer added", addedAnswer);
+        console.log('New answer added', addedAnswer);
       } else {
-        console.error("Failed to add the answer");
+        console.error('Failed to add the answer');
       }
     } catch (error) {
       console.error(error);
@@ -113,33 +120,41 @@ export default function QuestionPage() {
   return (
     <div className="title-container">
       <div>
-      <h2 className="title">{question.title}</h2>
-      <span className="description">({question.description})</span>
-      <Link to={`/questions`}>
-        <span
-          id="close-button"
-          onClick={(e) => handleDelete(e, question.question_id)}
-        >
-          &times;
+        <h2 className="user-name">by: {questionPoster.userName}</h2>
+      </div>
+      <div>
+        <h2 className="title">{question.title}</h2>
+        <span className="description">({question.description})</span>
+        <Link to={`/questions`}>
+          <span
+            id="close-button"
+            onClick={(e) => handleDelete(e, question.question_id)}
+          >
+            &times;
+          </span>
+        </Link>
+
+        <hr className="separator" />
+
+        <span id="plus-button" onClick={() => setShowForm(true)}>
+          &#43;
         </span>
-      </Link>
-      
-      <hr className="separator" />
-
-      <span id="plus-button" onClick={() => setShowForm(true)}>&#43;</span>
-      {showForm && (
-        <form id="answerform" onSubmit={(e) => handleAddAnswer(e, question.question_id)}>
-          <h2>New Answer</h2>
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-          /> <br />
-          <button type="submit">Submit Answer</button>
-        </form>
-      )}
-
+        {showForm && (
+          <form
+            id="answerform"
+            onSubmit={(e) => handleAddAnswer(e, question.question_id)}
+          >
+            <h2>New Answer</h2>
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+            />{' '}
+            <br />
+            <button type="submit">Submit Answer</button>
+          </form>
+        )}
       </div>
       <div id="answers">
         <h2>ANSWERS</h2>
@@ -154,9 +169,7 @@ export default function QuestionPage() {
             </span>)}
           </div>
         ))}
-        
       </div>
-
     </div>
   );
 }
