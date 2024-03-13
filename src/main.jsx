@@ -5,7 +5,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import EditQuestions from './pages/EditQuestions.jsx';
 import Questions from './pages/Questions.jsx';
-import Register from './pages/user/Register.jsx';
+import Login from './pages/Login.jsx';import Register from './pages/user/Register.jsx';
 
 
 const router = createBrowserRouter([
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/questions",
         element: <Questions />
+      },
+      {
+        path: "/login",
+        element: <Login />
       }
     ]
   },
