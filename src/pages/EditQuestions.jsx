@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./EditQuestions.css";
 
 export default function EditQuestions() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("userId"));
+    if (id && id > 0) {
+      setUserId(id);
+    }
+  }, []);
 
   const handleSubmit = async () => {
     console.log("from edit page, handleSubmit");
@@ -11,9 +19,11 @@ export default function EditQuestions() {
     const questionPost = {
       title,
       description,
+      userId
     };
 
     try {
+      console.log(questionPost);
       const response = await fetch("/api/question/", {
         method: "POST",
         body: JSON.stringify(questionPost),
