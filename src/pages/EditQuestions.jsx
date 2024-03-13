@@ -1,12 +1,12 @@
 import { useState } from "react";
+import "./EditQuestions.css";
 
 export default function EditQuestions() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = async () => {
-    console.log("from edit page, hanndleSubmit");
-    // e.preventDefault();
+    console.log("from edit page, handleSubmit");
 
     const questionPost = {
       title,
@@ -34,21 +34,33 @@ export default function EditQuestions() {
   };
 
   return (
-    <div className="root-layout">
-      <h2>Add new question: </h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <input
-          type="text"
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
-        />
-        <button>ADD QUESTION</button>
-      </form>
+    <div className="container">
+      <div className="form">
+        <div className="input-container ic1">
+          <label htmlFor="">Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container ic2 textarea">
+        <label htmlFor="">Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows="8"
+            cols="80"
+            required
+          ></textarea>
+          <br />
+          <br />
+        </div>
+        <button type="submit" className="submit" onClick={handleSubmit}>
+          submit
+        </button>
+      </div>
     </div>
   );
 }
