@@ -1,0 +1,37 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+body{
+  background-color: #f0f0f0;
+  
+}
+
+#header{
+
+  width: 250vh;
+  background-color: 	#343a40;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  justify-content: center;
+  left: 50%;
+  transform: translate(-50%);
+  box-shadow: 2px 3px 36px 1px rgba(0,0,0,0.75);
+-webkit-box-shadow: 2px 3px 36px 1px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 3px 36px 1px rgba(0,0,0,0.75);
+}
+
+#navbar a{
+  color: #ffffff;
+  margin: 5rem;
+  font-weight: 900;
+  font-size: 20px;
+}
+#navbar a:hover{
+  color: 	#6c757d;
+}
+

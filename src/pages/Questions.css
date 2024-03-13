@@ -1,0 +1,52 @@
+#question{
+  border: 2px solid #343a40 ;
+  border-radius: 10px;
+  background-color: #343a40;
+  margin-bottom: 10px;
+  position: relative;
+  height: 100px;
+  
+}
+
+
+#close-button {
+
+  font-size: 50px;
+  cursor: pointer;
+  color: red;
+  transition: transform 0.3s ease;
+}
+#close-button:hover{
+  transform: scale(1.6);
+  font-weight: 900;
+}
+
+#questions-container{
+  background-color: #ffff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 60%;
+  position: absolute;
+  right: 0;
+  max-height: 75%;
+  top: 100px;
+  overflow-y: scroll;
+}
+
+#sign{
+  text-align: left;
+  position: absolute;
+  left: 10px;
+  top: 100px;
+  color: 	#343a40;
+}
+
+#title{
+  position: absolute;
+  left: 100px;
+}
+
+#descr{
+  position: absolute;
+  right: 100px;
+}
