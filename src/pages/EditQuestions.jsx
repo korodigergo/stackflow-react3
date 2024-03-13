@@ -41,6 +41,8 @@ export default function EditQuestions() {
     } catch (error) {
       console.error(error);
     }
+    setTitle("");
+    setDescription("");
   };
 
   return (

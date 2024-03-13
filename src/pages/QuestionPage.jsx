@@ -36,15 +36,21 @@ export default function QuestionPage() {
         setQuestionPoster(user);
       });
     });
+  
     fetchAnswers(id).then((answers) => {
       setAnswers(answers);
-      answers.forEach((answer) => {
-        fetchUser(answer.user_id).then((user) => {
-          setAnswerPosters((prev) => [...prev, user.userName]);
+      const fetchUserPromises = answers.map((answer) => fetchUser(answer.user_id));
+  
+      Promise.all(fetchUserPromises)
+        .then((users) => {
+          setAnswerPosters(users.map((user) => user.userName));
+        })
+        .catch((error) => {
+          console.error("Error fetching users for answers", error);
         });
-      });
     });
   }, [id]);
+  
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("userId"));
@@ -135,12 +141,12 @@ export default function QuestionPage() {
         <h2 className="title">{question.title}</h2>
         <span className="description">({question.description})</span>
         <Link to={`/questions`}>
-          <span
+        {question.user_id == user_id && (<span
             id="close-button"
             onClick={(e) => handleDelete(e, question.question_id)}
           >
             &times;
-          </span>
+          </span>)}
         </Link>
 
         <hr className="separator" />
