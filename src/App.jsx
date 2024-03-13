@@ -7,8 +7,9 @@ function App() {
     <div className="root-layout">
       <header id="header">
         <nav id="navbar">
-          
           <NavLink to="/">Home</NavLink>
+          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/register">Register</NavLink>
           <NavLink to="/questions">Question Collection</NavLink>
           <NavLink to="/addquestion">Edit Collection</NavLink>
         </nav>
