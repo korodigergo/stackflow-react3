@@ -12,6 +12,7 @@ function App() {
   return (
     <div className="root-layout">
       <header id="header">
+
         <div className="menu-logo" onClick={toggleMenu}>
         <div className={menuOpen ? "open bar1" : "bar1"}></div>
           <div className={menuOpen ? "open bar2" : "bar2"}></div>
@@ -33,6 +34,7 @@ function App() {
           <NavLink to="/addquestion" onClick={toggleMenu}>
             Edit Collection
           </NavLink>
+
         </nav>
       </header>
       <main>

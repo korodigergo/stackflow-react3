@@ -13,6 +13,7 @@ export default function EditQuestions() {
     }
   }, [])
 
+
   const handleSubmit = async () => {
     console.log("from edit page, handleSubmit");
 
@@ -20,9 +21,11 @@ export default function EditQuestions() {
       title,
       description,
       user_id
+
     };
 
     try {
+      console.log(questionPost);
       const response = await fetch("/api/question/", {
         method: "POST",
         body: JSON.stringify(questionPost),
@@ -40,6 +43,8 @@ export default function EditQuestions() {
     } catch (error) {
       console.error(error);
     }
+    setTitle("");
+    setDescription("");
   };
 
   return (
