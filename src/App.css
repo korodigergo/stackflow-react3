@@ -1,3 +1,5 @@
+
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -9,7 +11,9 @@ body{
   background-color: #f0f0f0;
   
 }
-
+main{
+  margin-top: 80px;
+}
 #header{
   z-index: 999;
   width: 250vh;
@@ -35,3 +39,71 @@ body{
   color: 	#6c757d;
 }
 
+/* App.css */
+
+.root-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.menu-logo {
+  display: none; /* Initially hidden on larger screens */
+}
+
+.menu-logo div {
+  width: 35px;
+  height: 3px;
+  background-color: white;
+  margin: 6px 0;
+  transition: transform 0.4s; /* Apply transition to the transform property */
+}
+
+
+
+@media (max-width: 690px) {
+  .menu-logo {
+    display: block;
+  }
+
+  #navbar {
+    display: none; /* Initially hidden on smaller screens */
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    background-color: #333;
+    width: 100%;
+  }
+
+  #navbar.open {
+    display: flex; /* Display when menu is toggled */
+  }
+
+  #navbar a {
+    display: block;
+    padding: 10px;
+    text-align: center;
+  }
+}

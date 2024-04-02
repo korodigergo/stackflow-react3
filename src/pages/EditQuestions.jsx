@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./EditQuestions.css";
 
 export default function EditQuestions() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [user_id, setUserId] = useState(-1);
+
+  useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("userId"));
+    if(id && id > 0){
+      setUserId(id);
+    }
+  }, [])
 
   const handleSubmit = async () => {
     console.log("from edit page, handleSubmit");
@@ -11,6 +19,7 @@ export default function EditQuestions() {
     const questionPost = {
       title,
       description,
+      user_id
     };
 
     try {
@@ -24,7 +33,7 @@ export default function EditQuestions() {
 
       if (response.ok) {
         const addedQuestion = await response.json();
-        console.log("New book question", addedQuestion);
+        console.log("New question", addedQuestion);
       } else {
         console.error("Failed to add the question");
       }
